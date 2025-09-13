@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Dashboard</title>
+<style>
+  :root{
+    --sidebar-bg: #001f3f; /* navy blue */
+    --accent: #ff2b7a;     /* pink */
+    --text-default: #d3d3d3; /* ash/light gray */
+    --hover-bg: rgba(255,43,122,0.1);
+  }
+
+  html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: "Arial Unicode MS", Arial, sans-serif;
+  background: #0a1a2f; /* overall dark matching background */
+}
+
+
+  .layout {
+  display: flex;
+  flex-direction: row;
+  height: 100%;    /* full height of html/body */
+  width: 100%;     /* full width of viewport */
+  overflow: hidden; 
+}
+
+
+
+  /* Sidebar */
+ .sidebar {
+  width: 260px;
+  min-width: 64px;
+  height: 100%;        /* full height of viewport */
+  background: var(--sidebar-bg);
+  color: var(--text-default);
+  transition: width .22s ease;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;     /* scroll if content exceeds height */
+  overflow-x: hidden;   /* remove horizontal scroll */
+}
+
+
+
+  .sidebar.collapsed{width:64px;}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;         /* remove bottom margin */
+  padding: 10px;     /* optional spacing */
+  flex-shrink: 0;    /* prevents it from pushing sidebar taller */
+}
+.brand-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    flex-shrink: 0;    /* prevents it from stretching sidebar */
+    position: relative;
+  }
+  .brand .logo{
+    width:40px; height:40px;
+    border-radius:50%;
+    object-fit:cover;
+  }
+ 
+
+  .menu{flex:1; display:flex; flex-direction:column; gap:6px;}
+  .item{
+    display:flex; align-items:center; 
+    padding:12px 14px; border-radius:8px; cursor:pointer;
+    font-weight:bold;
+    font-family:"Arial Unicode MS", Arial, sans-serif;
+    color:var(--text-default);
+    transition: background .15s, color .15s;
+    text-decoration:none;
+    gap:10px;
+    justify-content:space-between;
+    flex-wrap:wrap;
+  }
+  .item:hover{background:var(--hover-bg);}
+  .item.active{
+    color:var(--accent);
+    background:rgba(255,43,122,0.15);
+  }
+
+  .item .left{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex:1;
+  }
+  .label{font-size:15px;}
+
+  .arrow{
+    font-size:12px;
+    color:var(--text-default);
+    cursor:pointer;
+    text-decoration:none;
+    margin-left:10px;
+  }
+
+  .sidebar.collapsed .label,
+  .sidebar.collapsed .arrow{opacity:0; width:0; overflow:hidden;}
+
+  .toggle {
+    position: absolute;
+    right: 10px; /* inside the sidebar */
+    top: 14px;
+    background: white;
+    color: var(--sidebar-bg);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+
+  /* Submenu */
+  .submenu{
+    display:none;
+    flex-direction:column;
+    margin-left:20px;
+    gap:4px;
+  }
+  .submenu .subitem{
+    font-size:14px;
+    padding:6px 10px;
+    border-radius:6px;
+    text-decoration:none;
+    color:var(--text-default);
+    cursor:pointer;
+  }
+  .submenu .subitem:hover{
+    background:var(--hover-bg);
+    color:var(--accent);
+  }
+
+  .item.open + .submenu{display:flex;}
+
+  /* Main content */
+  main {
+  flex: 1;
+  height: 100%;
+  background: #112244;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+iframe {
+    flex: 1;
+    width: 100%;
+    height: 100%;    /* ✅ stretch iframe vertically */
+    border: none;
+    display: block;  /* ✅ remove inline gaps */
+}
+
+
+  /* SVG icon style */
+  .icon svg{
+    width:20px;
+    height:20px;
+    fill:currentColor;
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand-container">
+  <div class="brand">
+    <img src="logo.png" alt="Company Logo" class="logo">
+  </div>
+  <button class="toggle" id="toggleBtn">☰</button>
+</div>
+
+
+   <div class="menu-wrapper">
+  <nav class="menu">
+    <!-- your menu items -->
+  </nav>
+</div>
+
+      <!-- Sales -->
+      <div class="item">
+        <div class="left" data-url="https://app.powerbi.com/view?r=eyJrIjoiMDM1NjU3OTQtNTgxOS00ODI3LTk4MjctNGNmMTE3NWJjOWQ0IiwidCI6ImEwMzAwMjQwLTEzMmMtNGNjNC05MDM5LWFlMmM0ODJmNDhlZCJ9">
+          <span class="icon">
+            <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm4 0h2v-2H7v2zm0-4h2v-2H7v2zm4 0h2v-2h-2v2zm0 4h2v-2h-2v2zm4-4h2v-2h-2v2zm0 4h2v-2h-2v2zm4-4h2v-2h-2v2zm0 4h2v-2h-2v2z"/></svg>
+          </span>
+          <span class="label">Sales</span>
+        </div>
+      </div>
+
+      <!-- HR -->
+      <div class="item">
+        <div class="left" data-url="https://app.powerbi.com/view?r=eyJrIjoiNTYxOTgyOTctZjEwZi00YzEzLWE5YWItMmNiYjRjNjc4MWQwIiwidCI6ImEwMzAwMjQwLTEzMmMtNGNjNC05MDM5LWFlMmM0ODJmNDhlZCJ9" >
+          <span class="icon">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/></svg>
+          </span>
+          <span class="label">HR</span>
+        </div>
+        <a class="arrow" href="#" data-url="https://app.powerbi.com/view?r=eyJrIjoiOGQyZjQxZmItNDlkNS00ZjQ4LWE3MzctN2EyZGU2YTY2OWE4IiwidCI6ImEwMzAwMjQwLTEzMmMtNGNjNC05MDM5LWFlMmM0ODJmNDhlZCJ9">▶</a>
+      </div>
+
+      <!-- Sales Team -->
+      <div class="item">
+        <div class="left" data-url="https://app.powerbi.com/view?r=eyJrIjoiNjI1ZjQ2NTUtN2M2NC00NGVmLWEzZGEtMGRiNWYwMjg2NTE5IiwidCI6ImEwMzAwMjQwLTEzMmMtNGNjNC05MDM5LWFlMmM0ODJmNDhlZCJ9">
+          <span class="icon">
+            <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 2.02 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+          </span>
+          <span class="label">Sales Team</span>
+        </div>
+      </div>
+
+      <!-- Marketing -->
+      <div class="item">
+        <div class="left" data-url="https://app.powerbi.com/view?r=eyJrIjoiZmI1NDQwNGUtMDU2NS00YTBlLTkzNjAtN2JjYjhhZWQwOWY3IiwidCI6ImEwMzAwMjQwLTEzMmMtNGNjNC05MDM5LWFlMmM0ODJmNDhlZCJ9" >
+          <span class="icon">
+            <svg viewBox="0 0 24 24"><path d="M12 3v10.55A4 4 0 1 0 14 17V3h-2z"/></svg>
+          </span>
+          <span class="label">Marketing</span>
+        </div>
+        <a class="arrow" href="#" data-url="https://app.powerbi.com/view?r=eyJrIjoiYjA0OTM4MDQtOTk2Yi00ZDFmLWIwYWUtOTQ4MDI2ZmVjNjNlIiwidCI6ImEwMzAwMjQwLTEzMmMtNGNjNC05MDM5LWFlMmM0ODJmNDhlZCJ9">▶</a>
+      </div>
+
+      <!-- Expense -->
+      <div class="item">
+        <div class="left" data-url="https://app.powerbi.com/view?r=eyJrIjoiMGM2N2VkNDAtNzgxOS00YWFkLTkxODYtYTU2N2JjN2MyZGFiIiwidCI6ImEwMzAwMjQwLTEzMmMtNGNjNC05MDM5LWFlMmM0ODJmNDhlZCJ9">
+          <span class="icon">
+            <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+          </span>
+          <span class="label">Expense</span>
+        </div>
+      </div>
+
+      <!-- Campaigns -->
+      <div class="item">
+        <div class="left" data-url="https://app.powerbi.com/view?r=eyJrIjoiNTI5NDAwODctMjM4My00NTU3LWIwNGItNTNhYWEwYWQwY2ZlIiwidCI6ImEwMzAwMjQwLTEzMmMtNGNjNC05MDM5LWFlMmM0ODJmNDhlZCJ9">
+          <span class="icon">
+            <svg viewBox="0 0 24 24"><path d="M3 3h18v2H3V3zm0 14h18v2H3v-2zm0-7h18v2H3v-2z"/></svg>
+          </span>
+          <span class="label">Campaigns</span>
+        </div>
+      </div>
+
+      <!-- Financial -->
+      <div class="item has-submenu">
+        <div class="left" data-url="https://app.powerbi.com/view?r=eyJrIjoiZDE1NDU5NzAtMzVmNy00NDlkLWE0ZjktNWNhYWVkZTM2N2M3IiwidCI6ImEwMzAwMjQwLTEzMmMtNGNjNC05MDM5LWFlMmM0ODJmNDhlZCJ9">
+          <span class="icon">
+            <svg viewBox="0 0 24 24"><path d="M12 3v18c4.97 0 9-4.03 9-9s-4.03-9-9-9z"/></svg>
+          </span>
+          <span class="label">Financial</span>
+        </div>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="submenu">
+        <a href="#" class="subitem" data-url="https://app.powerbi.com/view?r=eyJrIjoiYjcyMjEyNGItYTExMS00MWRkLWI1ZTMtOGZhMmNjNmM5NjRhIiwidCI6ImEwMzAwMjQwLTEzMmMtNGNjNC05MDM5LWFlMmM0ODJmNDhlZCJ9">Income Statement</a>
+        <a href="#" class="subitem" data-url="https://app.powerbi.com/view?r=eyJrIjoiYTdjZDhlZmItYWUyNi00N2M3LThiNzctNjIxZDJhMmExOTVmIiwidCI6ImEwMzAwMjQwLTEzMmMtNGNjNC05MDM5LWFlMmM0ODJmNDhlZCJ9">Budget</a>
+        <a href="#" class="subitem" data-url="https://app.powerbi.com/view?r=eyJrIjoiNGNjZWFhNmUtOTZhYS00OWZkLWIzYWMtYzBkNjIzYmU0MTU5IiwidCI6ImEwMzAwMjQwLTEzMmMtNGNjNC05MDM5LWFlMmM0ODJmNDhlZCJ9"  >Financial Statement</a>
+        <a href="#" class="subitem" data-url="https://app.powerbi.com/view?r=eyJrIjoiMWNjNGRhNzAtNzk3NC00NDJlLTk0MDgtZGFiNzA3MWYwNTk1IiwidCI6ImEwMzAwMjQwLTEzMmMtNGNjNC05MDM5LWFlMmM0ODJmNDhlZCJ9">Overall View</a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main content -->
+  <main>
+    <iframe id="reportFrame" src="https://app.powerbi.com/view?r=SALES_MAIN_URL" allowfullscreen></iframe>
+  </main>
+</div>
+
+<script>
+  const sidebar = document.getElementById('sidebar');
+  const toggleBtn = document.getElementById('toggleBtn');
+  const iframe = document.getElementById('reportFrame');
+
+  toggleBtn.addEventListener('click', ()=> sidebar.classList.toggle('collapsed'));
+
+  // Handle clicks for main sections
+  document.querySelectorAll('.item .left').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelectorAll('.item').forEach(i => i.classList.remove('active'));
+      el.closest('.item').classList.add('active');
+      iframe.src = el.dataset.url;
+    });
+  });
+
+  // Handle clicks for submenu toggle
+  document.querySelectorAll('.item.has-submenu .arrow').forEach(arrow => {
+    arrow.addEventListener('click', e => {
+      e.preventDefault();
+      arrow.closest('.item').classList.toggle('open');
+    });
+  });
+
+  // Handle clicks for submenu items
+  document.querySelectorAll('.submenu .subitem').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      iframe.src = link.dataset.url;
+    });
+  });
+</script>
+</body>
+</html>
